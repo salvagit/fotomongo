@@ -1,0 +1,50 @@
+<html doctype=html>
+  <head>
+    <title>Fotomongo</title>
+    <link rel="stylesheet" href="./css/styles.css">
+  </head>
+  <body>
+    <header><h1>Fotomongo</h1></header>
+    <nav></nav>
+    <article>
+      <div class='container'>
+        <table id='imageTable'>
+          <thead>
+            <tr>
+              <th>image</th>
+              <th>description</th>
+              <th>actions</th>
+            </tr>
+          </thead>
+
+          <tbody></tbody>
+
+          <tfoot>
+            <tr>
+              <td colspan="3">total: <span id='total'></span></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </article>
+    <footer></footer>
+
+    <template id="rowTpl">
+      <tr>
+        <td>
+          <img class='image' src="" alt="" width='100'>
+        </td>
+        <td>
+          <p class='description'></p>
+        </td>
+        <td>
+          <button class='btn edit'></button>
+          <button class='btn delete'></button>
+        </td>
+      </tr>
+    </template>
+
+    <script type='text/javascript' src='./js/index.js'></script>
+
+  </body>
+</html>
