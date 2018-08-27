@@ -4,6 +4,7 @@ var Main = {
     var _this = this;
     this.getImages()
     .then(function (images) {
+      document.querySelector('#total').innerHTML = images.length;
       return images.forEach(function (el) {
         _this.renderRow(el);
       });
