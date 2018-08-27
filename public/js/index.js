@@ -10,7 +10,7 @@ var Main = {
       });
     })
     .then(function () {
-      _this.bindActions();
+      return _this.bindActions();
     });
   },
 
@@ -26,6 +26,17 @@ var Main = {
     document.querySelectorAll('.delete')
     .forEach( function (el) {
       el.addEventListener('click', Main.deleteImage )
+    });
+
+    var el = document.getElementById('imageTable');
+    var dragger = tableDragger(el, {
+      mode: 'row',
+      onlyBody: true,
+      animation: 300
+    });
+    dragger.on('drop',function(from, to){
+      console(from);
+      console(to);
     });
   },
 
