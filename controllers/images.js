@@ -23,10 +23,13 @@ class Images {
     let id = req.body._id;
     let obj = {};
 
+    // save action.
     function doSave (id, obj) {
+      // add description
       if (req.body.description) {
         obj.description = req.body.description;
       }
+      // create or update
       if (!id) {
         db.fotomongo.insert(obj, (err, dbres) => {
           if (err) throw err;
@@ -50,18 +53,21 @@ class Images {
         });
       }
     }
-
+    // add file
     if (req.file) {
-      obj.image = req.file.originalname;
+      let date = new Date();
+      obj.image = `${date.getTime()}_${req.file.originalname.replace(' ', '-')}`;
       fs.rename(
         path.join(req.file.destination, req.file.filename),
-        path.join(req.file.destination, req.file.originalname),
+        path.join(req.file.destination, obj.image),
         fsErr => {
           if (fsErr) throw(fsErr);
+          // if not description save now.
           if (!req.body.description) doSave(id, obj);
         }
       );
     }
+    // if have description save now.
     if (req.body.description) doSave(id, obj);
 
   }
