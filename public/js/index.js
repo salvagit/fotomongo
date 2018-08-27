@@ -17,6 +17,11 @@ var Main = {
     document.querySelector('#addImage')
     .addEventListener('submit', this.addNewImage );
 
+    document.querySelectorAll('.edit')
+    .forEach( function (el) {
+      el.addEventListener('click', Main.updateImage )
+    });
+
     document.querySelectorAll('.delete')
     .forEach( function (el) {
       el.addEventListener('click', Main.deleteImage )
@@ -76,9 +81,35 @@ var Main = {
     });
   },
 
+  updateImage: function (e) {
+    var id = e.target.parentNode.parentNode.dataset.id;
+
+    fetch('./api/images/'+id)
+      .then( function (data) { return data.json() })
+      .then( function (data) {
+        var form = document.querySelector('#addImage');
+
+        idInput = document.createElement('input');
+        idInput.type='hidden';
+        idInput.name='_id';
+        idInput.value=id;
+        form.appendChild(idInput);
+
+        form.querySelector('textarea').value = data[0].description;
+        // form.querySelector("input[type='file']").value = data.image;
+        form.querySelector("input[type='file']").required = data.image;
+
+      })
+      .catch( err => console.error(err) );
+  },
+
   refresh() {
+    var form = document.querySelector('#addImage');
     var table = document.querySelector('#imageTable');
     var tbody = table.querySelector('tbody');
+    var inputHidden = form.querySelector('input[type=hidden]');
+    if (inputHidden) form.removeChild(inputHidden);
+    form.reset();
     tbody.innerHTML = '';
     Main.init();
   }
