@@ -19,7 +19,8 @@ Router.all('/*', (req, res, next) => {
 
 var upload = multer({ dest: path.join(__dirname, process.env.UPLOAD_PATH) })
 
-Router.get('/api/getImages', Images.getImages);
-Router.post('/api/addNewImage', upload.single('image'), Images.multerAdd);
+Router.get('/api/images', Images.get);
+Router.put('/api/images', upload.single('image'), Images.add);
+Router.delete('/api/images/:_id', Images.delete);
 
 module.exports = Router;
