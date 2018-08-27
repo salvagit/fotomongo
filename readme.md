@@ -16,10 +16,21 @@ __Docker NodeJs Mongo Demo app__
 
  - [install docker-compose](https://docs.docker.com/compose/install/)  
 
-### step 2, install dependencies and start containers.
+### step 2, install dependencies.
 
-```code6yy
-    $ npm install 
+```code
+    $ npm install
+```
+
+### step 3, copy .env.
+
+```code
+    $ cp .env.example .env
+```
+
+### step 4, start containers.
+
+```code
     $ docker-compose build
     $ docker-compose up
 ```
