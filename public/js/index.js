@@ -80,7 +80,8 @@ var Main = {
 
   deleteImage: function (e) {
     var id = e.target.parentNode.parentNode.dataset.id;
-
+    let resp = window.confirm('you want to delete the image ?')
+    if (!resp) return false;
     $.ajax({
       url: "./api/images/"+id,
       type: "DELETE",
