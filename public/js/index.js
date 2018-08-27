@@ -35,8 +35,8 @@ var Main = {
       animation: 300
     });
     dragger.on('drop',function(from, to){
-      console(from);
-      console(to);
+      console.log(from);
+      console.log(to);
     });
   },
 

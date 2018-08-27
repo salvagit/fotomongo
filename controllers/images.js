@@ -13,7 +13,7 @@ class Images {
       filter = { _id: mongojs.ObjectId(id) };
     }
     db.fotomongo.find(filter, (err, docs) => {
-      if (err) throw (err);      
+      if (err) throw (err);
       return res.json(docs);
     })
   }
@@ -36,9 +36,16 @@ class Images {
         db.fotomongo.findAndModify({
           query: { _id: mongojs.ObjectId(id) },
           update: { $set: obj },
-          new: true
+          new: false
         }, function (err, doc, lastErrorObject) {
           if (err) throw err;
+          let imagePath = path.join(
+            __dirname,
+            `${process.env.UPLOAD_PATH}/${process.env.UPLOAD_PATH, doc.image}`
+          );
+          if (fs.existsSync(imagePath)) {
+            fs.unlink(imagePath, err => console.log(err) );
+          }
           return res.end();
         });
       }
@@ -58,12 +65,26 @@ class Images {
     if (req.body.description) doSave(id, obj);
 
   }
-  
+
   delete (req, res) {
-    db.fotomongo.remove({ _id: mongojs.ObjectId(req.params._id) }, function (err) {
+    db.fotomongo.find({ _id: mongojs.ObjectId(req.params._id) }, function (err, docs) {
       if (err) throw err;
-      return res.end();
-    });
+      let imageName = '';
+      imageName = docs[0].image;
+
+      db.fotomongo.remove({ _id: mongojs.ObjectId(req.params._id) }, function (err, doc) {
+        if (err) throw err;
+        let imagePath = path.join(
+          __dirname,
+          `${process.env.UPLOAD_PATH}/${process.env.UPLOAD_PATH, imageName}`
+        );
+        if (fs.existsSync(imagePath)) {
+          fs.unlink(imagePath, err => console.log(err) );
+        }
+        return res.end();
+      });
+    })
+
   }
 }
 
