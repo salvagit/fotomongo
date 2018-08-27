@@ -1,20 +1,14 @@
+require('dotenv').load();
 const express = require('express');
-const mongojs = require('mongojs');
-
-const dbPath = 'mongodb://test_mongo_1:27017';
-const port = 3000;
-
-const db = mongojs(dbPath, ['fotolog']);
+const bodyParser = require('body-parser');
 
 const app = express();
 
-app.use(express.static('public'));
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-app.get('/api/getImages', (req, res) => {
-  db.fotolog.find({}, (err, docs) => {
-    if (err) return err;
-    return res.json(docs);
-  })
-});
+app.use(express.static(__dirname + '/public'));
 
-app.listen(port);
+app.use('/', require('./routes'));
+
+app.listen(process.env.PORT);

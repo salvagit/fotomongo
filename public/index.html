@@ -6,8 +6,25 @@
   <body>
     <header><h1>Fotomongo</h1></header>
     <nav></nav>
+
     <article>
       <div class='container'>
+
+        <form id='addImage' action="#">
+          <label>
+            <span>Imagen: </span>
+            <input type="file" name="image" />
+            <strong><abbr title="required">*</abbr></strong>
+          </label>
+          
+          <label>
+            <span>Description: </span>
+              <textarea type="text" name="description" required></textarea>
+            <strong><abbr title="required">*</abbr></strong>
+          </label>
+          <button type='submit'>save</button> 
+        </form>
+
         <table id='imageTable'>
           <thead>
             <tr>
@@ -44,6 +61,11 @@
       </tr>
     </template>
 
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+      crossorigin="anonymous"></script>
+    
     <script type='text/javascript' src='./js/index.js'></script>
 
   </body>
