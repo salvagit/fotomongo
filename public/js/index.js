@@ -43,17 +43,71 @@ var Main = {
   addNewImage: function(e) {
     e.preventDefault();
 
-    $.ajax({
-      url: "./api/images",
-      type: "PUT",
-      data: new FormData(this),
-      contentType: false,
-      cache: false,
-      processData:false,
-      success: function(data) {
-        Main.refresh();
-      }
-    });
+    var input, file;
+
+    var validTypes = [
+      'image/jpeg',
+      'image/gif',
+      'image/png',
+    ]
+
+    if (!window.FileReader) {
+      alert("The file API isn't supported on this browser yet.");
+      return;
+    }
+
+    input = document.getElementById('fileinput');
+    file = input.files[0];
+
+    var textarea = this.querySelector('textarea');
+
+    if (file) {
+      
+      var data = new FormData(this);
+      var img = new Image();
+
+      img.src = window.URL.createObjectURL( file );
+      img.onload = function() {
+        var width = img.naturalWidth,
+            height = img.naturalHeight,
+            valid = true;
+
+        window.URL.revokeObjectURL( img.src );
+
+        if ( validTypes.indexOf(file.type) == -1 ) {
+          valid = false;
+          alert("The image must be jpg, gif or png.");
+        }
+
+        if( width != 320 && height != 320 ) {
+          valid = false;
+          alert("The image must have a size of 320 x 320px.");
+        }
+
+        if (textarea.value.length > 300) {
+          valid = false;
+          alert("The description can not exceed 300 characters");
+        }
+
+        if (valid) {
+          $.ajax({
+            url: "./api/images",
+            type: "PUT",
+            data,
+            contentType: false,
+            cache: false,
+            processData:false,
+            success: function(data) {
+              Main.refresh();
+            },
+            error: function (err) {
+
+            }
+          });
+        }
+      };
+    }
+
 
   },
 
