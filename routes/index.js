@@ -21,6 +21,7 @@ var upload = multer({ dest: path.join(__dirname, process.env.UPLOAD_PATH) })
 
 Router.get('/api/images/:_id?', Images.get);
 Router.put('/api/images/:_id?', upload.single('image'), Images.save);
+Router.post('/api/images/order', Images.order);
 Router.delete('/api/images/:_id', Images.delete);
 
 module.exports = Router;

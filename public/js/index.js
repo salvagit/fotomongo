@@ -35,8 +35,20 @@ var Main = {
       animation: 300
     });
     dragger.on('drop',function(from, to){
-      console.log(from);
-      console.log(to);
+      $.ajax({
+        url: "./api/images/order",
+        type: "POST",
+        data: {
+          from: from,
+          to: to
+        },
+        success: function (data) {
+          Main.refresh();
+        },
+        error: function (err) {
+          console.error('error', err);
+        }
+      });
     });
   },
 
@@ -101,7 +113,7 @@ var Main = {
               Main.refresh();
             },
             error: function (err) {
-
+              console.error(err);
             }
           });
         }
